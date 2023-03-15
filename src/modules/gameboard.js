@@ -2,6 +2,7 @@ import createShip from './ship.js';
 
 export default function createGameboard() {
     return {
+        allShips: [],
         gameboard: [[0,0,0,0,0,0,0,0,0,0],
                     [0,0,0,0,0,0,0,0,0,0],
                     [0,0,0,0,0,0,0,0,0,0],
@@ -15,6 +16,7 @@ export default function createGameboard() {
         missed: [],
         placeShip(x, y, axis, shipLength) {
             let ship = createShip(shipLength);
+            this.allShips.push(ship);
             if (axis == 'vertical') {
                 if (y + shipLength > 10) y = 10 - shipLength;
                 for (let i = y; i < y + shipLength; i++) {
@@ -30,6 +32,9 @@ export default function createGameboard() {
         receiveAttack(x, y) {
             if (this.gameboard[x][y] != 0) this.gameboard[x][y].hit++;
             else if (!this.missed.includes([x, y])) this.missed.push([x, y]);
+        },
+        isAllSunk() {
+
         }
     }
 }

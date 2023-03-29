@@ -1,0 +1,29 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+html, body {
+    font-size: 10px;
+}
+
+.modal-container {
+    height: 100vh;
+    width: 100vw;
+    background-color: black;
+    opacity: 0.8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.place-ships {
+    background-color: rgb(230, 230, 230);
+    color: black;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center;
+    align-items: center; */
+    height: 800px;
+    width: 600px;
+    border-radius: 10px;
+    font-size: 5rem;
+}

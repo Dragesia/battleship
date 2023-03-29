@@ -42,6 +42,19 @@ export default function createGameboard() {
                 if (!s.isSunk()) return false;
             });
             return true;
+        },
+        renderPlayerGameboard() {
+            let gb = document.createElement(div);
+            gb.classList.add("gameboard");
+            for (let i=0; i<10; 1++) {
+                for (let j=0; j<10; j++) {
+                    let water = document.createElement(div);
+                    if (this.gameboard[i][j].ship == 'undefined' && this.gameboard[i][j].isAvailable) water.classList.add('water');
+                    else if (this.gameboard[i][j].ship == 'undefined' && !this.gameboard[i][j].isAvailable) water.classList.add('water-hit');
+                    else if (this.gameboard[i][j].isAvailable) water.classList.add('ship');
+                    else if (!this.gameboard[i][j].isAvailable) water.classList.add('ship-hit'); 
+                }
+            }
         }
     }
 }

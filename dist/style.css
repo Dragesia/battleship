@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 html, body {
     font-size: 10px;
@@ -35,6 +36,17 @@ html, body {
     border: 1px solid black;
     width: 500px;
     height: 500px;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+}
+.gameboard > div {
+    border: 1px solid black;
+    height: 50px;
+    width: 50px;
+}
+
+.gameboard > div:hover {
+    background-color: rgb(207, 207, 207);
 }
 
 #length {
@@ -69,7 +81,7 @@ html, body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: #2196F3;
     -webkit-transition: .4s;
     transition: .4s;
 }
@@ -107,4 +119,18 @@ input:checked + .slider:before {
 
 .slider.round:before {
     border-radius: 50%;
+}
+
+.water {
+    background-color: aquamarine;
+}
+.water-hit {
+    background-color: rgb(83, 22, 22);
+}
+
+.ship {
+    background-color: rgb(22, 22, 22);
+}
+.ship-hit {
+    background-color: red;
 }

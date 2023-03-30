@@ -12,12 +12,43 @@ function createGbArr() {
     return arr;
 }
 
+function checkPosition(gbArr, x, y, axis, shipLength) {
+    if (axis == 'vertical') {
+        if (y + shipLength > 10) y = 10 - shipLength;
+        for (let i = y; i < y + shipLength; i++) {
+            console.log(x, i);
+            if (i+1 <= 9) {
+                if (gbArr[x][i+1].ship != 'undefined') return false; 
+            }
+            if (i-1 >= 0) {
+                if (gbArr[x][i-1].ship != 'undefined') return false;
+            }
+            if (x-1 >= 0) {
+                if (gbArr[x-1][i].ship != 'undefined') return false;
+            }
+            if (x+1 <= 9) {
+                if (gbArr[x+1][i].ship != 'undefined') return false;
+            } 
+        }
+    } else if (axis == 'horizontal') {
+        if (x + shipLength > 10) x = 10 - shipLength;
+        for (let i = x; i < x + shipLength; i++) {
+            if (gbArr[i+1][y+1].ship != 'undefined') return false;
+            if (gbArr[i+1][y-1].ship != 'undefined') return false;
+            if (gbArr[i-1][y+1].ship != 'undefined') return false;
+            if (gbArr[i-1][y-1].ship != 'undefined') return false;
+        }
+    } return true;
+}
+
 export default function createGameboard() {
     return {
         allShips: [],
         gameboard: createGbArr(),
         missed: [],
         placeShip(x, y, axis, shipLength) {
+            if (shipLength == 0) return;
+            if (!checkPosition(this.gameboard, x, y, axis, shipLength)) return;
             let ship = createShip(shipLength);
             this.allShips.push(ship);
             if (axis == 'vertical') {
@@ -69,6 +100,3 @@ export default function createGameboard() {
 let game = createGameboard()
 let player = createPlayer(game);
 
-game.placeShip(1, 9, 'vertical', 4);
-
-player.playRandom();

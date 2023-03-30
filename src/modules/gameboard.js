@@ -16,7 +16,6 @@ function checkPosition(gbArr, x, y, axis, shipLength) {
     if (axis == 'vertical') {
         if (y + shipLength > 10) y = 10 - shipLength;
         for (let i = y; i < y + shipLength; i++) {
-            console.log(x, i);
             if (i+1 <= 9) {
                 if (gbArr[x][i+1].ship != 'undefined') return false; 
             }
@@ -33,10 +32,18 @@ function checkPosition(gbArr, x, y, axis, shipLength) {
     } else if (axis == 'horizontal') {
         if (x + shipLength > 10) x = 10 - shipLength;
         for (let i = x; i < x + shipLength; i++) {
-            if (gbArr[i+1][y+1].ship != 'undefined') return false;
-            if (gbArr[i+1][y-1].ship != 'undefined') return false;
-            if (gbArr[i-1][y+1].ship != 'undefined') return false;
-            if (gbArr[i-1][y-1].ship != 'undefined') return false;
+            if (i+1 <= 9) {
+                if (gbArr[i+1][y].ship != 'undefined') return false;
+            }
+            if (i-1 >= 0) {
+                if (gbArr[i-1][y].ship != 'undefined') return false;
+            }
+            if (y-1 >= 0) {
+                if (gbArr[i][y-1].ship != 'undefined') return false;
+            }
+            if (y+1 <= 9) {
+                if (gbArr[i][y+1].ship != 'undefined') return false;
+            }   
         }
     } return true;
 }
@@ -84,7 +91,7 @@ export default function createGameboard() {
                         let index = [...water.parentElement.children].indexOf(water);
                         let x = Math.floor(index/10);
                         let y = index % 10;
-                        this.placeShip(x, y, 'vertical', 5);
+                        this.placeShip(x, y, 'horizontal', 5);
                         this.renderPlayerGameboard();
                     }
                     if (this.gameboard[i][j].ship == 'undefined' && this.gameboard[i][j].isAvailable) water.classList.add('water');

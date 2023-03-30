@@ -44,15 +44,23 @@ export default function createGameboard() {
             return true;
         },
         renderPlayerGameboard() {
-            let gb = document.createElement(div);
-            gb.classList.add("gameboard");
-            for (let i=0; i<10; 1++) {
+            let gb = document.querySelector('.gameboard');
+            gb.innerHTML = '';
+            for (let i=0; i<10; i++) {
                 for (let j=0; j<10; j++) {
-                    let water = document.createElement(div);
+                    let water = document.createElement('div');
+                    water.onclick = () => {
+                        let index = [...water.parentElement.children].indexOf(water);
+                        let x = Math.floor(index/10);
+                        let y = index % 10;
+                        this.placeShip(x, y, 'vertical', 5);
+                        this.renderPlayerGameboard();
+                    }
                     if (this.gameboard[i][j].ship == 'undefined' && this.gameboard[i][j].isAvailable) water.classList.add('water');
                     else if (this.gameboard[i][j].ship == 'undefined' && !this.gameboard[i][j].isAvailable) water.classList.add('water-hit');
                     else if (this.gameboard[i][j].isAvailable) water.classList.add('ship');
                     else if (!this.gameboard[i][j].isAvailable) water.classList.add('ship-hit'); 
+                    gb.appendChild(water);
                 }
             }
         }
@@ -64,5 +72,3 @@ let player = createPlayer(game);
 game.placeShip(1, 9, 'vertical', 4);
 
 player.playRandom();
-
-console.log(game.gameboard);

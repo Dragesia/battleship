@@ -1,8 +1,16 @@
-import createGameboard from "./modules/gameboard.js";
+import gameboard from "./modules/gameboard.js";
+import DOM from "./modules/domStuff.js";
+
+
 
 const gb = document.querySelector('.gameboard');
-const gameboard = createGameboard();
+const playerGB = gameboard();
 
-gameboard.renderPlayerGameboard();
+playerGB.startPlacement();
+
+
+
+// DOM();
+
 
 

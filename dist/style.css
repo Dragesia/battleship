@@ -121,7 +121,7 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 
-.water {
+.free-water {
     background-color: aquamarine;
 }
 .water-hit {

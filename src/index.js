@@ -1,16 +1,18 @@
 import gameboard from "./modules/gameboard.js";
-import DOM from "./modules/domStuff.js";
+import createPlayer from "./modules/player.js";
 
+const player = createPlayer(gameboard());
+player.game.startPlacement();
 
+const computer = createPlayer(gameboard());
+computer.game.makeAttackable();
 
-const gb = document.querySelector('.gameboard');
-const playerGB = gameboard();
-
-playerGB.startPlacement();
-
-
-
-// DOM();
-
+const start = document.querySelector('.start');
+start.onclick = () => {
+    if (player.game.isAllPlaced) {
+        const modal = document.querySelector('.modal-container');
+        modal.style.display = 'none';
+    }     
+}
 
 

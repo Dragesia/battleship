@@ -1,3 +1,4 @@
+/* General */
 * {
     margin: 0;
     padding: 0;
@@ -5,18 +6,76 @@
 }
 html, body {
     font-size: 10px;
+    background-color: #f5f3c1;
 }
 
-.modal-container {
+/* Game screen */
+
+.game {
     height: 100vh;
     width: 100vw;
-    background-color: black;
-    opacity: 0.8;
+    display: flex;
+    flex-direction: column;
+    gap: 150px;
+}
+header {
+    width: 100vw;
+    height: 7vh;
+    font-size: 5rem;
+    border-bottom: 2px black solid;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+.playground {
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.gameboard, .computer-board {
+    height: 500px;
+    width: 500px;
+    border: 1px solid #2f0f5d;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+}
+
+.water {
+    border: 1px solid black;
+    height: 50px;
+    width: 50px;
+}
+.free-water {
+    background-color: #27e1c1;
+}
+.water-hit {
+    background-color: rgb(83, 83, 83);
+}
+
+.ship {
+    background-color: rgb(22, 22, 22);
+}
+.ship-hit {
+    background-color: rgb(165, 0, 0);
+}
+
+/* Place ships screen */
+
+.modal-container {
+    z-index: 1;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+}
 .place-ships {
+    z-index: 1;
     background-color: rgb(230, 230, 230);
     color: black;
     display: flex;
@@ -32,18 +91,14 @@ html, body {
 .place-ships > p {
     font-size: 4rem;
 }
-.gameboard {
+/* .gameboard {
+    z-index: 1;
     border: 1px solid black;
     width: 500px;
     height: 500px;
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-}
-.gameboard > div {
-    border: 1px solid black;
-    height: 50px;
-    width: 50px;
-}
+} */
 
 .gameboard > div:hover {
     background-color: rgb(207, 207, 207);
@@ -112,7 +167,6 @@ input:checked + .slider:before {
     transform: translateX(26px);
 }
 
-/* Rounded sliders */
 .slider.round {
     border-radius: 34px;
 }
@@ -121,16 +175,9 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 
-.free-water {
-    background-color: aquamarine;
-}
-.water-hit {
-    background-color: rgb(83, 22, 22);
-}
 
-.ship {
-    background-color: rgb(22, 22, 22);
-}
-.ship-hit {
-    background-color: red;
+.start {
+    font-size: 1.5rem;
+    width: 80px;
+    height: 40px;
 }

@@ -53,6 +53,8 @@ export default function gameboard() {
         allShips: [],
         gameboard: createGbArr(),
         missed: [],
+        isAllPlaced: false,
+        defenseTurn: false,
         placeShip(x, y, axis, shipLength) {
             if (shipLength == 0) return;
             if (!checkPosition(this.gameboard, x, y, axis, shipLength)) return false;
@@ -73,9 +75,11 @@ export default function gameboard() {
             }
         },
         receiveAttack(x, y) {
+            if (!this.gameboard[x][y].isAvailable) return false;
             if (this.gameboard[x][y].ship != 'undefined') this.gameboard[x][y].hit++;
             else if (!this.missed.includes([x, y])) this.missed.push([x, y]);
             this.gameboard[x][y].isAvailable = false;
+            return true;
         },
         isAllSunk() {
             this.allShips.forEach(s => {
@@ -85,22 +89,35 @@ export default function gameboard() {
         },
         startPlacement() {
             const axisSwitch = document.querySelector('.switch > input');
-            let waterArr = document.querySelectorAll('.water');
+            let waterArr = document.querySelectorAll('.gameboard > .water');
             let len = 5;
             waterArr.forEach(water => {
                 water.onclick = () => {
-                    let axis = axisSwitch.checked ? 'horizontal' : 'vertical';
+                    let axis = axisSwitch.checked ? 'vertical' : 'horizontal';
                     let index = [...water.parentElement.children].indexOf(water);
                     let x = Math.floor(index/10);
                     let y = index % 10;
-                    if (this.placeShip(x, y, axis, len)) len--; // fix this
-                    this.renderPlayerGameboard();
+                    if (this.placeShip(x, y, axis, len)) len--;
+                    if (!len) this.isAllPlaced = true;
+                    this.renderGameboard();
                 }
             });
         },
-        renderPlayerGameboard() {
-            console.log(1);
-            let waterArr = document.querySelectorAll('.water');
+        makeAttackable() {
+            let waterArr = document.querySelectorAll('.computer-board > .water');
+            waterArr.forEach(water => {
+                let index = [...water.parentElement.children].indexOf(water);
+                let x = Math.floor(index/10);
+                let y = index % 10;
+                water.onclick = () => {
+                    if (!this.receiveAttack(x, y)) return;
+                    this.defenseTurn = false;
+                    this.renderGameboard();
+                }
+            });
+        },
+        renderGameboard() {
+            let waterArr = document.querySelectorAll('.gameboard > .water');
             waterArr.forEach(water => {
                 let index = [...water.parentElement.children].indexOf(water);
                 let i = Math.floor(index/10);
@@ -112,13 +129,6 @@ export default function gameboard() {
                 else if (this.gameboard[i][j].isAvailable) water.classList.add('ship');
                 else if (!this.gameboard[i][j].isAvailable) water.classList.add('ship-hit'); 
             });
-            // water.onclick = () => {
-            //     let index = [...water.parentElement.children].indexOf(water);
-            //     let x = Math.floor(index/10);
-            //     let y = index % 10;
-            //     this.placeShip(x, y, 'vertical', 5); // fix this
-            //     this.renderPlayerGameboard();
-            // }
         }
     }
 }

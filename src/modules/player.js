@@ -1,11 +1,12 @@
-export default function createPlayer(game) {
+export default function createPlayer(gameboard) {
     return {
-        playRandom: () => {
+        game: gameboard,
+        playRandom: (enemy) => {
             let x = Math.floor(Math.random() * 10);
             let y = Math.floor(Math.random() * 10);
             console.log(x, y);
-            if (game.gameboard[x][y].isAvailable) {
-                game.receiveAttack(x, y);
+            if (enemy.gameboard[x][y].isAvailable) {
+                enemy.receiveAttack(x, y);
                 return true;
             }
             return false;

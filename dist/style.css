@@ -100,7 +100,7 @@ header {
     grid-template-columns: repeat(10, 1fr);
 } */
 
-.gameboard > div:hover {
+.water:hover {
     background-color: rgb(207, 207, 207);
 }
 

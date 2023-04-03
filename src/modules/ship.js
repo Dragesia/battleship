@@ -1,7 +1,7 @@
-export default function createShip(length) {
+export default function createShip(shipLength) {
     return {
-        length: length,
+        shipLength: shipLength,
         hit: 0,
-        isSunk: () => length == hit ? true : false,
+        isSunk() { return this.shipLength == this.hit }
     }
 }

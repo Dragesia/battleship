@@ -12,7 +12,7 @@ function createGbArr() {
     return arr;
 }
 
-function checkPosition(gbArr, x, y, axis, shipLength) {
+export function checkPosition(gbArr, x, y, axis, shipLength) {
     if (axis == 'vertical') {
         if (y + shipLength > 10) y = 10 - shipLength;
         for (let i = y; i < y + shipLength; i++) {
@@ -54,7 +54,6 @@ export default function gameboard() {
         gameboard: createGbArr(),
         missed: [],
         isAllPlaced: false,
-        defenseTurn: false,
         placeShip(x, y, axis, shipLength) {
             if (shipLength == 0) return;
             if (!checkPosition(this.gameboard, x, y, axis, shipLength)) return false;
@@ -76,15 +75,15 @@ export default function gameboard() {
         },
         receiveAttack(x, y) {
             if (!this.gameboard[x][y].isAvailable) return false;
-            if (this.gameboard[x][y].ship != 'undefined') this.gameboard[x][y].hit++;
+            if (this.gameboard[x][y].ship != 'undefined') this.gameboard[x][y].ship.hit++;
             else if (!this.missed.includes([x, y])) this.missed.push([x, y]);
             this.gameboard[x][y].isAvailable = false;
             return true;
         },
         isAllSunk() {
-            this.allShips.forEach(s => {
-                if (!s.isSunk()) return false;
-            });
+            for (let i=0; i<this.allShips.length; i++) {
+                if (!this.allShips[i].isSunk()) return false;
+            }
             return true;
         },
         startPlacement() {
@@ -99,7 +98,7 @@ export default function gameboard() {
                     let y = index % 10;
                     if (this.placeShip(x, y, axis, len)) len--;
                     if (!len) this.isAllPlaced = true;
-                    this.renderGameboard();
+                    this.renderGameboard('user');
                 }
             });
         },
@@ -111,28 +110,40 @@ export default function gameboard() {
                 let y = index % 10;
                 water.onclick = () => {
                     if (!this.receiveAttack(x, y)) return;
-                    this.defenseTurn = false;
-                    this.renderGameboard();
+                    this.renderGameboard('computer');
                 }
             });
         },
-        renderGameboard() {
-            let waterArr = document.querySelectorAll('.gameboard > .water');
-            waterArr.forEach(water => {
-                let index = [...water.parentElement.children].indexOf(water);
-                let i = Math.floor(index/10);
-                let j = index % 10;
-                water.classList = '';
-                water.classList.add('water');
-                if (this.gameboard[i][j].ship == 'undefined' && this.gameboard[i][j].isAvailable) water.classList.add('free-water');
-                else if (this.gameboard[i][j].ship == 'undefined' && !this.gameboard[i][j].isAvailable) water.classList.add('water-hit');
-                else if (this.gameboard[i][j].isAvailable) water.classList.add('ship');
-                else if (!this.gameboard[i][j].isAvailable) water.classList.add('ship-hit'); 
-            });
+        renderGameboard(player) {
+            if (player == 'user') {
+                let waterArr = document.querySelectorAll('.gameboard > .water');
+                waterArr.forEach(water => {
+                    let index = [...water.parentElement.children].indexOf(water);
+                    let i = Math.floor(index/10);
+                    let j = index % 10;
+                    water.classList = '';
+                    water.classList.add('water');
+                    if (this.gameboard[i][j].ship == 'undefined' && this.gameboard[i][j].isAvailable) water.classList.add('free-water');
+                    else if (this.gameboard[i][j].ship == 'undefined' && !this.gameboard[i][j].isAvailable) water.classList.add('water-hit');
+                    else if (this.gameboard[i][j].isAvailable) water.classList.add('ship');
+                    else if (!this.gameboard[i][j].isAvailable) water.classList.add('ship-hit');
+                });
+            } else if (player == 'computer') {
+                let waterArr = document.querySelectorAll('.computer-board > .water');
+                waterArr.forEach(water => {
+                    let index = [...water.parentElement.children].indexOf(water);
+                    let i = Math.floor(index/10);
+                    let j = index % 10;
+                    water.classList = '';
+                    water.classList.add('water');
+                    if (this.gameboard[i][j].isAvailable) water.classList.add('free-water');
+                    else if (this.gameboard[i][j].ship == 'undefined' && !this.gameboard[i][j].isAvailable) water.classList.add('water-hit');
+                    else if (!this.gameboard[i][j].isAvailable) water.classList.add('ship-hit'); 
+                });
+            }
+            
         }
     }
 }
 
-let game = gameboard()
-let player = createPlayer(game);
 

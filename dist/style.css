@@ -210,14 +210,13 @@ input:checked + .slider:before {
     align-items: center;
 }
 .winner-screen {
-    height: 500px;
-    width: 500px;
+    padding: 3rem;
     background-color: rgb(230, 230, 230);
+    border-radius: 15px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 2.5rem;
 }
 .winner {
     font-size: 7rem;
@@ -226,4 +225,29 @@ input:checked + .slider:before {
     font-size: 2rem;
     padding: 1rem;
     border-radius: 10px;
+    border: 2px var(--grid) solid;
+    cursor: pointer;
+}
+.play-again:hover {
+    background-color: #c4c4c4;
+}
+
+.stats {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    border: 2px solid var(--grid);
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 2.5rem;
+    background-color: #f03e00;
+}
+
+.stats-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
 }

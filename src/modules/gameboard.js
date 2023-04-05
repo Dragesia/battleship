@@ -52,6 +52,7 @@ export default function gameboard() {
     return {
         allShips: [],
         gameboard: createGbArr(),
+        totalShots: 0,
         missed: [],
         isAllPlaced: false,
         placeShip(x, y, axis, shipLength) {
@@ -78,6 +79,7 @@ export default function gameboard() {
             if (this.gameboard[x][y].ship != 'undefined') this.gameboard[x][y].ship.hit++;
             else if (!this.missed.includes([x, y])) this.missed.push([x, y]);
             this.gameboard[x][y].isAvailable = false;
+            this.totalShots++;
             return true;
         },
         isAllSunk() {
@@ -88,16 +90,20 @@ export default function gameboard() {
         },
         startPlacement() {
             const axisSwitch = document.querySelector('.switch > input');
-            let waterArr = document.querySelectorAll('.gameboard > .water');
+            const waterArr = document.querySelectorAll('.gameboard > .water');
+            const lenSpan = document.querySelector('#length');
             let len = 5;
             waterArr.forEach(water => {
                 water.onclick = () => {
-                    let axis = axisSwitch.checked ? 'vertical' : 'horizontal';
+                    let axis = axisSwitch.checked ? 'horizontal' : 'vertical';
                     let index = [...water.parentElement.children].indexOf(water);
                     let x = Math.floor(index/10);
                     let y = index % 10;
-                    if (this.placeShip(x, y, axis, len)) len--;
-                    if (!len) this.isAllPlaced = true;
+                    if (this.placeShip(x, y, axis, len)) lenSpan.innerHTML = --len + ' length';
+                    if (!len) {
+                        document.querySelector('.place-ships > p').innerHTML = 'You can start playing now';
+                        this.isAllPlaced = true
+                    };
                     this.renderGameboard('user');
                 }
             });
